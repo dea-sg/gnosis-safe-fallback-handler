@@ -3,12 +3,12 @@
 import { ethers, upgrades } from 'hardhat'
 
 async function main() {
-	const tokenFactory = await ethers.getContractFactory('ExampleToken')
-	const token = await upgrades.deployProxy(tokenFactory, [], { kind: 'uups' })
-	await token.deployed()
-	console.log('proxy was deployed to:', token.address)
-	const filter = token.filters.Upgraded()
-	const events = await token.queryFilter(filter)
+	const handler = await ethers.getContractFactory('FallbakHandler')
+	const proxy = await upgrades.deployProxy(handler, [], { kind: 'uups' })
+	await proxy.deployed()
+	console.log('proxy was deployed to:', proxy.address)
+	const filter = proxy.filters.Upgraded()
+	const events = await proxy.queryFilter(filter)
 	console.log('logic was deployed to:', events[0].args!.implementation)
 }
 
