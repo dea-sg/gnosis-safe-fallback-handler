@@ -4,20 +4,20 @@ import { solidity } from 'ethereum-waffle'
 import {
 	makeSnapshot,
 	resetChain,
-	generateFallbackhandler,
+	generateCustomFallbakHandler,
 	generateDeapCoin,
 	generateTestContract,
 } from './utils'
-import { FallbakHandler, DummyDeap } from '../typechain-types'
+import { CustomFallbakHandler, DummyDeap } from '../typechain-types'
 
 use(solidity)
 
 describe('FallbakHandler', () => {
-	let handler: FallbakHandler
+	let handler: CustomFallbakHandler
 	let deap: DummyDeap
 	let snapshot: string
 	before(async () => {
-		handler = await generateFallbackhandler()
+		handler = await generateCustomFallbakHandler()
 		deap = await generateDeapCoin()
 	})
 	beforeEach(async () => {

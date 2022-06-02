@@ -4,23 +4,31 @@ import { solidity } from 'ethereum-waffle'
 import {
 	makeSnapshot,
 	resetChain,
-	generateFallbackhandler,
+	generateCustomFallbakHandler,
 	generateDeapCoin,
 	generateGnosysSafe,
+	generateDummyFallbakHandler,
 } from './utils'
-import { FallbakHandler, DummyDeap, GnosisSafe } from '../typechain-types'
+import {
+	CustomFallbakHandler,
+	DummyDeap,
+	GnosisSafe,
+	DummyFallbakHandler,
+} from '../typechain-types'
 
 use(solidity)
 
 describe('GnosisSafe', () => {
-	let handler: FallbakHandler
+	let handler: CustomFallbakHandler
 	let deap: DummyDeap
 	let gnosis: GnosisSafe
+	let dummyhandler: DummyFallbakHandler
 	let snapshot: string
 	before(async () => {
-		handler = await generateFallbackhandler()
+		handler = await generateCustomFallbakHandler()
 		deap = await generateDeapCoin()
 		gnosis = await generateGnosysSafe()
+		dummyhandler = await generateDummyFallbakHandler()
 	})
 	beforeEach(async () => {
 		snapshot = await makeSnapshot()
@@ -47,12 +55,13 @@ describe('GnosisSafe', () => {
 			})
 		})
 		describe('fail', () => {
-			it('trasnfer is success.', async () => {
-				await gnosis.setup(ethers.constants.AddressZero)
+			it('trasnfer is fail.', async () => {
+				await gnosis.setup(dummyhandler.address)
 				const beforebalance = await deap.balanceOf(gnosis.address)
 				expect(beforebalance.toString()).to.equal('0')
-				// TODO
-				await deap.transfer(gnosis.address, '1000000000000000000')
+				await expect(
+					deap.transfer(gnosis.address, '1000000000000000000')
+				).to.be.revertedWith('Transaction reverted without a reason string')
 			})
 		})
 	})

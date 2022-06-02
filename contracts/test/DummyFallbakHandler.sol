@@ -3,23 +3,14 @@ pragma solidity =0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "./interface/IERC223Contract.sol";
 
-contract FallbakHandler is
-	IERC223Contract,
-	OwnableUpgradeable,
-	UUPSUpgradeable
-{
+contract DummyFallbakHandler is OwnableUpgradeable, UUPSUpgradeable {
 	function initialize() public initializer {
 		__Ownable_init();
 		__UUPSUpgradeable_init();
 	}
 
-	function tokenFallback(
-		address,
-		uint256,
-		bytes memory
-	) external {}
+	function dummyTokenFallback(address) external {}
 
 	function _authorizeUpgrade(address) internal override onlyOwner {}
 }

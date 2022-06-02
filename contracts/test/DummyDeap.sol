@@ -4,7 +4,7 @@ pragma solidity =0.8.9;
 // solhint-disable reason-string
 // solhint-disable no-inline-assembly
 
-import "../interface/IERC223Contract.sol";
+import "../interfaces/ERC223Contract.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract DummyDeap is ERC20 {
@@ -26,7 +26,7 @@ contract DummyDeap is ERC20 {
 		}
 		bytes memory empty;
 		if (isUserAddress == false) {
-			IERC223Contract receiver = IERC223Contract(_to);
+			ERC223Contract receiver = ERC223Contract(_to);
 			receiver.tokenFallback(msg.sender, _value, empty);
 		}
 		return true;
