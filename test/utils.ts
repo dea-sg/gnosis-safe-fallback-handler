@@ -1,10 +1,11 @@
 import { ethers, network } from 'hardhat'
 import {
-	FallbakHandler,
+	CustomFallbakHandler,
 	TestProxy,
 	DummyDeap,
 	TestContract,
 	GnosisSafe,
+	DummyFallbakHandler,
 } from '../typechain-types'
 
 export const makeSnapshot = async (): Promise<string> => {
@@ -19,18 +20,24 @@ export const resetChain = async (snapshot: string): Promise<void> => {
 	})
 }
 
-export const generateFallbackhandler = async (): Promise<FallbakHandler> => {
-	const handlerFactory = await ethers.getContractFactory('FallbakHandler')
-	const hander_ = (await handlerFactory.deploy()) as FallbakHandler
-	await hander_.deployed()
-	const proxyFactory = await ethers.getContractFactory('TestProxy')
-	const data = ethers.utils.arrayify('0x')
-	const proxy = (await proxyFactory.deploy(hander_.address, data)) as TestProxy
-	await proxy.deployed()
-	const handler = hander_.attach(proxy.address)
-	await handler.initialize()
-	return handler
-}
+export const generateCustomFallbakHandler =
+	async (): Promise<CustomFallbakHandler> => {
+		const handlerFactory = await ethers.getContractFactory(
+			'CustomFallbakHandler'
+		)
+		const hander_ = (await handlerFactory.deploy()) as CustomFallbakHandler
+		await hander_.deployed()
+		const proxyFactory = await ethers.getContractFactory('TestProxy')
+		const data = ethers.utils.arrayify('0x')
+		const proxy = (await proxyFactory.deploy(
+			hander_.address,
+			data
+		)) as TestProxy
+		await proxy.deployed()
+		const handler = hander_.attach(proxy.address)
+		await handler.initialize()
+		return handler
+	}
 
 export const generateDeapCoin = async (): Promise<DummyDeap> => {
 	const factory = await ethers.getContractFactory('DummyDeap')
@@ -52,3 +59,11 @@ export const generateGnosysSafe = async (): Promise<GnosisSafe> => {
 	await instance.deployed()
 	return instance
 }
+
+export const generateDummyFallbakHandler =
+	async (): Promise<DummyFallbakHandler> => {
+		const factory = await ethers.getContractFactory('DummyFallbakHandler')
+		const instance = (await factory.deploy()) as DummyFallbakHandler
+		await instance.deployed()
+		return instance
+	}
