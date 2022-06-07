@@ -28,8 +28,8 @@ const config = {
 			url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ARCHEMY_KEY!}`,
 			accounts: [privateKey],
 		},
-		polygonMumbai: {
-			url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env
+		mainnet: {
+			url: `https://eth-mainnet.alchemyapi.io/v2/${process.env
 				.ARCHEMY_KEY!}`,
 			accounts: [privateKey],
 		},
@@ -37,6 +37,7 @@ const config = {
 	etherscan: {
 		apiKey: {
 			rinkeby: process.env.ETHERSCAN_API_KEY!,
+			mainnet: process.env.ETHERSCAN_API_KEY!,
 			polygonMumbai: process.env.POLYGONSCAN_API_KEY!,
 		},
 	},

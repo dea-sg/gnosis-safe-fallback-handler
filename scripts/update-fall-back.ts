@@ -15,8 +15,8 @@ import { abi } from './GnosisSafe.json'
 
 async function main() {
 	/// ////////////////////////////////////////////
-	const safeAddress = '0x4f3084E8760B46F7c24EA71E1012887a2B37487a'
-	const fallBackHandler = '0xCF3C44649Ae829DF9805961b934E0ba17F453bA8'
+	const safeAddress = '0x2d1224DB2D7a226430203Ac3Da45Bb231837EF11'
+	const fallBackHandler = '0x71383d65426aa62c0a17617bBFC64E3Cf50F8970'
 	/// ////////////////////////////////////////////
 	const [owner] = await ethers.getSigners()
 	const wallet = new Wallet(process.env.PRIVATE_KEY!, owner.provider)
@@ -208,4 +208,4 @@ main()
 	})
 
 // Memo
-// npx hardhat run dist/scripts/update-fall-back.js --network rinkeby
+// npx hardhat run dist/scripts/update-fall-back.js --network mainnet
