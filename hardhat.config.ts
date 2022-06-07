@@ -29,8 +29,7 @@ const config = {
 			accounts: [privateKey],
 		},
 		mainnet: {
-			url: `https://eth-mainnet.alchemyapi.io/v2/${process.env
-				.ARCHEMY_KEY!}`,
+			url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ARCHEMY_KEY!}`,
 			accounts: [privateKey],
 		},
 	},
